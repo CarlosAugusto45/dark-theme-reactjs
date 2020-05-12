@@ -9,4 +9,10 @@ export const Container = styled.header`
   padding: 0 50px;
   background: ${(props) => props.theme.colors.primary};
   color: ${(props) => props.theme.colors.text};
+
+  div {
+    > svg {
+      margin: 0 3px;
+    }
+  }
 `;
