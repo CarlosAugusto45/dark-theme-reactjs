@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { ThemeProvider } from "styled-components";
+import Header from "./components/Header";
+import GlobalStyle from "./styles/global";
+
+import { dark, light } from "./styles/themes";
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    const storageValue = localStorage.getItem("theme");
+
+    if (storageValue) {
+      return JSON.parse(storageValue);
+    } else {
+      return light;
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(theme));
+  }, [theme]);
+
+  function toggleTheme() {
+    setTheme(theme.title === "light" ? dark : light);
+  }
+
+  console.log(theme);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ThemeProvider theme={theme}>
+        <Header toggleTheme={toggleTheme} />
+        <GlobalStyle />
+      </ThemeProvider>
+    </>
   );
 }
 
